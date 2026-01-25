@@ -312,6 +312,7 @@ type
     procedure DispIDSpecifier; virtual;
     procedure DotOp; virtual;
     procedure ElseStatement; virtual;
+    procedure ElseExpression; virtual;
     procedure EmptyStatement; virtual;
     procedure EnumeratedType; virtual;
     procedure EnumeratedTypeItem; virtual;
@@ -358,6 +359,7 @@ type
     procedure Identifier; virtual;
     procedure IdentifierList; virtual;
     procedure IfStatement; virtual;
+    procedure TernaryOp; virtual;
     procedure ImplementationSection; virtual;
     procedure ImplementsSpecifier; virtual;
     procedure IncludeFile; virtual;
@@ -490,6 +492,7 @@ type
     procedure TagFieldTypeName; virtual;
     procedure Term; virtual;
     procedure ThenStatement; virtual;
+    procedure ThenExpression; virtual;
     procedure TryStatement; virtual;
     procedure TypedConstant; virtual;
     procedure TypeDeclaration; virtual;
@@ -971,6 +974,12 @@ end;
 procedure TmwSimplePasPar.SkipSlashesComment;
 begin
   Expected(ptSlashesComment);
+end;
+
+procedure TmwSimplePasPar.ThenExpression;
+begin
+  Expected(ptThen);
+  Expression;
 end;
 
 procedure TmwSimplePasPar.ThenStatement;
@@ -2360,6 +2369,14 @@ begin
     ElseStatement;
 end;
 
+procedure TmwSimplePasPar.TernaryOp;
+begin
+  Expected(ptIf);
+  Expression;
+  ThenExpression;
+  ElseExpression;
+end;
+
 procedure TmwSimplePasPar.ExceptBlock;
 begin
   if ExID = ptOn then
@@ -2748,6 +2765,12 @@ begin
   end;
 end;
 
+procedure TmwSimplePasPar.ElseExpression;
+begin
+  Expected(ptElse);
+  Expression;
+end;
+
 procedure TmwSimplePasPar.ElseStatement;
 begin
   Expected(ptElse);
@@ -2927,6 +2950,10 @@ end;
 procedure TmwSimplePasPar.Factor;
 begin
   case TokenID of
+    ptIf:
+      begin
+        TernaryOp;
+      end;
     ptAsciiChar, ptStringConst:
       begin
         CharString;
