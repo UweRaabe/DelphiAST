@@ -307,6 +307,7 @@ end;
 
 procedure AssignLexerPositionToNode(const Lexer: TPasLexer; const Node: TSyntaxNode);
 begin
+  Node.LineSeq := Lexer.PosXY.LineSeq;
   Node.Col := Lexer.PosXY.X;
   Node.Line := Lexer.PosXY.Y;
   Node.FileName := Lexer.FileName;
@@ -575,9 +576,10 @@ var
 
   NodeList: TList<TSyntaxNode>;
   Node: TSyntaxNode;
-  Col, Line: Integer;
+  Col, Line, LineSeq: Integer;
   FileName: string;
 begin
+  LineSeq := Lexer.PosXY.LineSeq;
   Line := Lexer.PosXY.Y;
   Col := Lexer.PosXY.X;
   FileName := Lexer.FileName;
@@ -595,6 +597,7 @@ begin
     begin
       ExprNode := FStack.Push(ntExpression);
       try
+        ExprNode.LineSeq := LineSeq;
         ExprNode.Line := Line;
         ExprNode.Col := Col;
         ExprNode.FileName := FileName;
@@ -2156,7 +2159,9 @@ var
   I, AssignIdx: Integer;
   Position: TTokenPoint;
   FileName: string;
+  LineSeq: Integer;
 begin
+  LineSeq := Lexer.PosXY.LineSeq;
   Position := Lexer.PosXY;
   FileName := Lexer.FileName;
 
@@ -2176,6 +2181,7 @@ begin
     begin
       Temp := FStack.Push(ntAssign);
       try
+        Temp.LineSeq := LineSeq;
         Temp.Col := Position.X;
         Temp.Line := Position.Y;
         Temp.FileName := FileName;
@@ -2550,7 +2556,9 @@ var
   NamesNode, UnitNode: TSyntaxNode;
   Position: TTokenPoint;
   FileName: string;
+  LineSeq: Integer;
 begin
+  LineSeq := Lexer.PosXY.LineSeq;
   Position := Lexer.PosXY;
   FileName := Lexer.FileName;
 
@@ -2568,6 +2576,7 @@ begin
     UnitNode.Col  := Position.X;
     UnitNode.Line := Position.Y;
     UnitNode.FileName := FileName;
+    UnitNode.LineSeq := LineSeq;
   finally
     NamesNode.Free;
   end;
