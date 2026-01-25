@@ -179,7 +179,8 @@ const
     ptInline,
     ptFinal,
     ptExperimental,
-    ptDispId
+    ptDispId,
+    ptNoreturn
   ];
 
 type
@@ -1897,6 +1898,10 @@ begin
       begin
         NextToken;
       end;
+    ptNoreturn:
+      begin
+        NextToken;
+      end;
   else
     begin
       SynError(InvalidDirectiveBinding);
@@ -2129,7 +2134,7 @@ begin
     ptMessage, ptNear, ptOverload, ptOverride, ptPascal, ptRegister,
     ptReintroduce, ptSafeCall, ptStdCall, ptVirtual, ptLibrary,
     ptPlatform, ptLocal, ptVarargs, ptAssembler, ptStatic, ptInline, ptForward,
-    ptExperimental, ptDeprecated] do
+    ptExperimental, ptDeprecated, ptNoreturn] do
   begin
     case ExId of
       ptExternal:
@@ -4164,7 +4169,7 @@ begin
   end;
   while TheTokenID in [ptAbstract, ptCdecl, ptDynamic, ptExport, ptExternal, ptFar,
     ptMessage, ptNear, ptOverload, ptOverride, ptPascal, ptRegister,
-    ptReintroduce, ptSafeCall, ptStdCall, ptVirtual, ptStatic, ptInline, ptVarargs] do
+    ptReintroduce, ptSafeCall, ptStdCall, ptVirtual, ptStatic, ptInline, ptVarargs, ptNoreturn] do
   // DR 2001-11-14 no checking for deprecated etc. since it's captured by the typedecl
   begin
     if TokenID = ptSemiColon then Semicolon;
@@ -4814,7 +4819,7 @@ begin
       begin
         ExternalDirective;
       end;
-    ptDynamic, ptMessage, ptOverload, ptOverride, ptReintroduce, ptVirtual:
+    ptDynamic, ptMessage, ptOverload, ptOverride, ptReintroduce, ptVirtual, ptNoreturn:
       begin
         DirectiveBinding;
       end;
@@ -4872,7 +4877,7 @@ begin
     ptMessage, ptNear, ptOverload, ptOverride, ptPascal, ptRegister,
     ptReintroduce, ptSafeCall, ptStdCall, ptVirtual,
     ptDeprecated, ptLibrary, ptPlatform, ptLocal, ptVarargs,
-    ptStatic, ptInline, ptAssembler, ptForward, ptDelayed] do
+    ptStatic, ptInline, ptAssembler, ptForward, ptDelayed, ptNoreturn] do
   begin
     case ExID of
       ptAssembler: NextToken;

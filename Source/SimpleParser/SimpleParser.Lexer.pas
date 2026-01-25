@@ -209,6 +209,7 @@ type
     function Func112: TptTokenKind;
     function Func117: TptTokenKind;
     function Func123: TptTokenKind;
+    function Func125: TptTokenKind;
     function Func126: TptTokenKind;
     function Func127: TptTokenKind;
     function Func128: TptTokenKind;
@@ -559,6 +560,7 @@ begin
       112: FIdentFuncTable[I] := Func112;
       117: FIdentFuncTable[I] := Func117;
       123: FIdentFuncTable[I] := Func123;
+      125: FIdentFuncTable[I] := Func125;
       126: FIdentFuncTable[I] := Func126;
       127: FIdentFuncTable[I] := Func127;
       128: FIdentFuncTable[I] := Func128;
@@ -1136,6 +1138,12 @@ function TmwBasePasLex.Func123: TptTokenKind;
 begin
   Result := ptIdentifier;
   if KeyComp('Shortint') then FExID := ptShortint;
+end;
+
+function TmwBasePasLex.Func125: TptTokenKind;
+begin
+  Result := ptIdentifier;
+  if KeyComp('noreturn') then FExID := ptNoreturn;
 end;
 
 function TmwBasePasLex.Func126: TptTokenKind;

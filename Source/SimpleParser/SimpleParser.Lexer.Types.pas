@@ -173,6 +173,7 @@ type
     ptNil,
     ptNodefault,
     ptNone,
+    ptNoreturn,
     ptNot,
     ptNotEqual,
     ptNull,
